@@ -7,9 +7,13 @@ public class Snake : MonoBehaviour
     private float moveRate = 0.25f;
     private Coroutine moveSnakeRoutine;
 
+   
+
+
     private void Start()
     {
         moveSnakeRoutine = StartCoroutine(MoveSnakeRoutine());
+       
     }
     private void Update()
     {
@@ -55,5 +59,14 @@ public class Snake : MonoBehaviour
             Mathf.Round(transform.position.y) + snakeDirection.y,
             0.0f
             );
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Food"))
+        {
+            Debug.Log("Collided with Food");
+            Destroy(collision.gameObject);
+        }
     }
 }
