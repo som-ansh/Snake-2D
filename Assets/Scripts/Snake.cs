@@ -9,8 +9,9 @@ public class Snake : MonoBehaviour
     private Vector2 snakeDirection = Vector2.right;
     private List<Transform> snakeSegments = new List<Transform>();
 
-    public float moveRate = 0.25f;
-    private float decrementRate = 0.005f;
+    private float initialMoveRate = 0.25f;
+    private float moveRate = 0.25f;
+    private float decrementRate = 0.009f;
     private float minMoveRate = 0.04f;
 
 
@@ -20,8 +21,11 @@ public class Snake : MonoBehaviour
     public GameObject warpBoundary;
     public TextMeshProUGUI scoreText, livesText;
     public Button mainMenuButton;
-    private Coroutine moveSnakeRoutine;
-
+    private AudioSource audioSource;
+    public AudioClip eatSound, moveSound, penaltySound;
+    private Coroutine snakeMovementCoroutine;
+    
+   
 
     private int initialSnakeLength = 4;
     public int lives = 3;
@@ -35,16 +39,22 @@ public class Snake : MonoBehaviour
         {
             Grow();
         }
-        moveSnakeRoutine = StartCoroutine(MoveSnakeRoutine());
+        snakeMovementCoroutine = StartCoroutine(MoveSnakeRoutine());
         scoreText.text = "Score: " + score;
         livesText.text = "Lives: " + lives;
+
         
+        audioSource = GetComponent<AudioSource>();
 
     }
     private void Update()
     {
-        // Assign direction based on user input
-        UpdateDirectionOnInput();
+        if(GameManager.instance.currentState == GameState.Playing)
+        {
+            // Assign direction based on user input
+            UpdateDirectionOnInput();
+        }
+        
         
     }
 
@@ -53,33 +63,37 @@ public class Snake : MonoBehaviour
         // We restrict certain inputs based on direction of the snake to avoid instant collision. for ex: restrict going left when snake is moving in 'right' direction
         if (Input.GetKeyDown(KeyCode.W) && (snakeDirection != Vector2.down))
         {
+            audioSource.PlayOneShot(moveSound, 1.0f);
             snakeDirection = Vector2.up;
         }
         else if (Input.GetKeyDown(KeyCode.S) && (snakeDirection != Vector2.up))
         {
+            audioSource.PlayOneShot(moveSound, 1.0f);
             snakeDirection = Vector2.down;
         }
         else if (Input.GetKeyDown(KeyCode.D) && (snakeDirection != Vector2.left))
         {
+            audioSource.PlayOneShot(moveSound, 1.0f);
             snakeDirection = Vector2.right;
         }
         else if (Input.GetKeyDown(KeyCode.A) && (snakeDirection != Vector2.right))
         {
+            audioSource.PlayOneShot(moveSound, 1.0f);
             snakeDirection = Vector2.left;
         }
     }
 
     IEnumerator MoveSnakeRoutine()
     {
-        while(true)
+        while(GameManager.instance.currentState == GameState.Playing)
         {
-            
             yield return new WaitForSeconds(moveRate);
             MoveSnake();
+
         }
     }
 
-    IEnumerator BlinkLives()
+    public IEnumerator BlinkLives()
     {
         for(int i =0; i < 2; i++)
         {
@@ -114,16 +128,16 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("Food"))
         {
+            audioSource.PlayOneShot(eatSound, 1.0f);
             Grow();  // Grow the snake after colliding with food
-            UpdateScore();
+            GameManager.instance.UpdateScore();
             collision.gameObject.GetComponent<Food>().GenerateRandomSpawnPosition(); //Generate next random position for food
         }
         else if (collision.CompareTag("Body") && (ignoreSelfCollisionThisStep == false))  //since we are spawning the first new segment inside head, it triggers a false collision. TO avoid that we check if we are allowed to acknowledge the collision
         {
-            
-            if (lives > 0)
+            audioSource.PlayOneShot(penaltySound, 1.0f);
+            if (lives >= 0)
             {
-                Debug.Log("Snake Body");
                 ResetSnake();
             }
         }
@@ -132,10 +146,11 @@ public class Snake : MonoBehaviour
 
     void ResetSnake()
     {
+        
+        GameManager.instance.UpdateLives();
+        moveRate = initialMoveRate;
 
-        UpdateLives();
-
-        for (int i = snakeSegments.Count - 1; i > 0 ; i--)  //Remove all segments of the snake except the initital snake length
+        for (int i = snakeSegments.Count - 1; i > 0 ; i--)  //Remove all segments of the snake except the head.
         {
             Destroy(snakeSegments[i].gameObject);
             snakeSegments.RemoveAt(i);
@@ -182,34 +197,11 @@ public class Snake : MonoBehaviour
         snakeSegments.Add(newSegment.transform);
 
         ignoreSelfCollisionThisStep = true; // Set the flag to avoid false overlap triggers
-
-        
     }
 
-    void  UpdateMoveRate()
+    public void UpdateMoveRate()
     {
-       
         moveRate -= decrementRate;
         moveRate = Mathf.Max(moveRate, minMoveRate);
-        Debug.Log("Updated moverate : 0" + moveRate);
-
     }
-
-    public void UpdateScore()
-    {
-        score++;
-        scoreText.text = "Score: " + score;
-        UpdateMoveRate();
-    }
-
-    public void UpdateLives()
-    {
-       if(lives > 0)
-       {
-            lives--;
-       }
-        livesText.text = "Lives: " + lives;
-        StartCoroutine(BlinkLives());
-    }
-
 }
