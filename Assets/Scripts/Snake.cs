@@ -49,7 +49,7 @@ public class Snake : MonoBehaviour
     }
     private void Update()
     {
-        if(GameManager.instance.currentState == GameState.Playing)
+        if(MainManager.instance.currentState == GameState.Playing)
         {
             // Assign direction based on user input
             UpdateDirectionOnInput();
@@ -85,7 +85,7 @@ public class Snake : MonoBehaviour
 
     IEnumerator MoveSnakeRoutine()
     {
-        while(GameManager.instance.currentState == GameState.Playing)
+        while(MainManager.instance.currentState == GameState.Playing)
         {
             yield return new WaitForSeconds(moveRate);
             MoveSnake();

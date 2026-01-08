@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 757680314}
   - component: {fileID: 757680316}
   m_Layer: 0
-  m_Name: ' Game Manager'
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,7 +1043,6 @@ MonoBehaviour:
   pausePanel: {fileID: 1206011546}
   snakeScript: {fileID: 137448352}
   gameOverAudio: {fileID: 8300000, guid: add87535ecb9a7b4c9279d4258dba81f, type: 3}
-  currentState: 0
 --- !u!4 &757680315
 Transform:
   m_ObjectHideFlags: 0
@@ -1251,7 +1250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &981750389
 RectTransform:
   m_ObjectHideFlags: 0
