@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using Unity.AppUI.UI;
+using UnityEngine.UI;
 
 public class Snake : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class Snake : MonoBehaviour
 
     private float initialMoveRate = 0.25f;
     private float moveRate = 0.25f;
-    private float decrementRate = 0.009f;
+    private float decrementRate = 0.01f;
     private float minMoveRate = 0.04f;
 
 

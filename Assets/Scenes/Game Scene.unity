@@ -436,6 +436,7 @@ MonoBehaviour:
   warpBoundary: {fileID: 974444800}
   scoreText: {fileID: 1522541702}
   livesText: {fileID: 1002128736}
+  mainMenuButton: {fileID: 0}
   eatSound: {fileID: 8300000, guid: 9e1b4c1eb8166b24ea9c4f89e09cdf6b, type: 3}
   moveSound: {fileID: 8300000, guid: 7bb7a6f30bc022a468ebb1102be460fa, type: 3}
   penaltySound: {fileID: 8300000, guid: a4dc8e106ae46a24d983897aa7c6bc2f, type: 3}
@@ -3225,7 +3226,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 0.8431373, b: 0, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -3497,7 +3498,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 0.8431373, b: 0, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
